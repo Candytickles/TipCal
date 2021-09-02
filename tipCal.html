@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tip Calculator</title>
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+      body , html{
+        font-family: Arial, Helvetica, sans-serif;
+        color: rgb(126, 126, 126);
+        background-color: #ffffff;
+      }
+
+      #container {
+        width: 45%;
+        margin: 100px auto;
+        background: #f7f7f7;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        border-radius: 0.5rem;
+        -webkit-border-radius: 0.5rem;
+        -moz-border-radius: 0.5rem;
+      }
+
+      #calculator {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        border-right: gainsboro solid 2px;
+      }
+
+      input {
+        width: 100%;
+        margin-bottom: 1rem;
+        border: none;
+        outline: none;
+        background: none;
+        font-size: 15px;
+        text-align: center;
+        padding: 0.4rem;
+        color: black;
+        border-radius: 0.3rem;
+        -webkit-border-radius: 0.3rem;
+        -moz-border-radius: 0.3rem;
+        box-shadow: inset 2px 2px 0px rgba(0, 0, 0, 0.1),
+          inset -2px -2px 0px rgba(0, 0, 0, 0.1);
+      }
+
+      .head {
+        color: black;
+      }
+
+      #totalTip {
+        padding: 2rem;
+        margin-top: auto;
+        margin-bottom: auto;
+      }
+
+      .price {
+        font-size: 6rem;
+        color: black;
+        font-family: "Roboto", sans-serif;
+      }
+
+      p,
+      h1 {
+        margin-bottom: 0;
+      }
+
+      .price.bold {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container" class="row">
+      <div id="calculator" class="col-sm-4">
+        <form>
+          <p>Bill</p>
+          <input
+            id="billamt"
+            type="number"
+            min="1"
+            value="0"
+            placeholder="Bill Amount"
+          />
+          <p>Tip %</p>
+          <input
+            id="tipamt"
+            type="number"
+            min="0"
+            max="100"
+            value="0"
+            placeholder="Tip"
+          />
+          <p>Number of people</p>
+          <input
+            id="peopleamt"
+            type="number"
+            min="1"
+            value="1"
+            placeholder="Number of People"
+          />
+        </form>
+      </div>
+      <!--calculator end-->
+      <div id="totalTip" class="col-sm-8">
+        <div class="row">
+          <div class="col-sm-4 w-100 text-left">
+            <h1 class="head">Tip</h1>
+            <small>per person</small>
+          </div>
+          <div class="col-sm-8 w-100 text-center">
+            <span class="price">$</span><span id="tip" class="price">0.00</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4 w-100 text-left">
+            <h1 class="head">Total</h1>
+            <small>per person</small>
+          </div>
+          <div class="col-sm-8 w-100 text-center">
+            <span class="price bold">$</span
+            ><span id="total" class="price bold">0.00</span>
+          </div>
+        </div>
+      </div>
+      <!--totalTip end-->
+    </div>
+    <!--container end-->
+
+    <script type="text/javascript">
+      //Calculate Tip
+      function calculateTip() {
+        console.log("asas");
+        var billAmt = document.getElementById("billamt").value;
+        var tipamt = document.getElementById("tipamt").value;
+        var numOfPeople = document.getElementById("peopleamt").value;
+        //validate input
+        if (billAmt <= 0) {
+          alert("Bill Amount should be more than one");
+          return;
+        }
+        if (numOfPeople <= 0) {
+          alert("Number of people should be more than one");
+          return;
+        }
+        if (tipamt < 0) {
+          alert("Tip should be more than or equal to zero");
+          return;
+        }
+        if (tipamt > 100) {
+          alert("Tip should be less than 100");
+          return;
+        }
+        //Calculate tip
+        var total = (billAmt * tipamt) / 100;
+        //round to two decimal places
+        total = Math.round(total * 100) / 100;
+        //next line allows us to always have two digits after decimal point
+        //Display the tip
+        var eachTip = (total / numOfPeople).toFixed(2);
+        var eachTotal = parseFloat(billAmt / numOfPeople) + parseFloat(eachTip);
+        //round to two decimal places
+        eachTotal = Math.round(eachTotal * 100) / 100;
+        document.getElementById("totalTip").style.display = "block";
+        document.getElementById("tip").innerHTML = eachTip;
+        document.getElementById("total").innerHTML = eachTotal.toFixed(2);
+      }
+      //To call function onChange
+      document.getElementById("billamt").onchange = function () {
+        calculateTip();
+      };
+      document.getElementById("tipamt").onchange = function () {
+        calculateTip();
+      };
+      document.getElementById("peopleamt").onchange = function () {
+        calculateTip();
+      };
+    </script>
+  </body>
+</html>
